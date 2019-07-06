@@ -21,6 +21,9 @@ in curly brackets `{}`. Here's an example of a very simple mad-lib:
 Hello there {your name}!
 ```
 
+If you want to add notes to your file that shouldn't be part of the story, you can use
+`#`. Anything following a `#` will be entirely ignored by the program.
+
 ## Additional Attributes
 You also have the oportunity to add some extra attributes to your file such as:
 
@@ -45,3 +48,24 @@ at the beginning.
 Another useful attribute is the title. If no title is set then the filename is used
 at the beginning of the Mad-Lib. But "madlib3.txt" is not always the best title, so
 using `#!title=` you can tell the application what your story is called.
+
+## Preset Questions
+Do you have one question that should be applied in multiple places, and you don't want
+to ask the user for the same thing 20 times? Well then preset questions are for you.
+At the beginning of the file, you can make presets that will be applied all over the
+file. To make a preset you create a name with %s. Like `%character_name%`. Then you
+say what you want to ask the user for, to set this preset. Here's a complete example:
+```
+#!format=madlibs
+
+%friend_name%=the name of your friend
+
+I saw %friend_name% at the beach yesterday.
+I hope %friend_name% is available for lunch tomorrow.
+
+```
+
+This Mad-Lib will ask the user for their friend's name once, and then
+replace all the `%friend_name%`s with whatever the user enters.
+
+As a final note: The name of your preset *cannot* be `%placeholder%`
