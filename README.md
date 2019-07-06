@@ -53,12 +53,16 @@ using `#!title` you can tell the application what your story is called.
 Do you have one question that should be applied in multiple places, and you don't want
 to ask the user for the same thing 20 times? Well then preset questions are for you.
 At the beginning of the file, you can make presets that will be applied all over the
-file. To make a preset you create a name with %s. Like `%character_name%`. Then you
-say what you want to ask the user for, to set this preset. Here's a complete example:
+file. To make a preset you first list all the presets you're going to use in the
+`#!presets` attribute, Then you make an attribute for each preset with the question
+that you want to ask the user for. When you want to use the preset in the story you
+surround your preset name with '%'s. Here's a complete example:
 ```
 #!format = madlibs
 
-%friend_name% = the name of your friend
+# Presets
+#!presets = friend_name
+#!friend_name = the name of your friend
 
 I saw %friend_name% at the beach yesterday.
 I hope %friend_name% is available for lunch tomorrow.
@@ -67,6 +71,8 @@ I hope %friend_name% is available for lunch tomorrow.
 
 This Mad-Lib will ask the user for their friend's name once, and then
 replace all the `%friend_name%`s with whatever the user enters.
+If you have multiple presets just add them into the `#!presets` attribute,
+seperated by commas: `#!presets = friend, foodname, clothing`
 
 As a final note: The name of your preset *cannot* be `%placeholder%`. This is used
 already by the application for the regular questions.
