@@ -1,0 +1,6 @@
+#!format=madlibs
+
+%friend_name%=the name of your friend
+
+I saw %friend_name% at the beach yesterday.
+I hope %friend_name% is available for lunch tomorrow.

@@ -21,7 +21,17 @@ public class UI {
 		//List all the available MadLibs
 		System.out.print("Enter the path to search for Mad-Libs: ");
 		path = input.nextLine();
+		
+		//Remove the '/' at the end of the path, if it exists
+		if (path.charAt(path.length() - 1) == '/') {
+			path = path.substring(0, path.length() - 1);
+		}
 		String[] madlibs = FileLoad.listAvail(path);
+		
+		//If no Mad-Libs were found
+		if (madlibs == null) {
+			System.exit(0);
+		}
 		
 		//Prompt the user to pick one of the MadLibs
 		System.out.println("\nEnter the name of an Mad-Lib from the list: ");
@@ -47,19 +57,36 @@ public class UI {
 		} while (!isValid);
 		
 		//Get file contents
-		currentFile = new File(path + "\\" + selected);
-		String content = FileLoad.getContent(path + "\\" + selected);
+		currentFile = new File(path + "/" + selected);
+		String content = FileLoad.getContent(path + "/" + selected);
+		ArrayList<String> presetQuestions = new ArrayList<>();
 		ArrayList<String> storyQuestions = new ArrayList<>();
 		
 		//Get the preset questions
-		while (content.contains("%")) {
+		while (content.contains("%=")) {
 			
+			//Add the question to the list of questions
+			String presetName = content.substring(content.indexOf("%")+1, content.indexOf("%="));
+			String question = content.substring(content.indexOf("%=")+2,
+								content.indexOf(System.lineSeparator(),
+								content.indexOf("%=")));
+			
+			presetQuestions.add(presetName + "-" +question);
+			
+			//Remove the line from the content
+			content = content.replace(content.substring(content.indexOf(presetName + "%=") - 1,
+					content.indexOf(System.lineSeparator(),
+					content.indexOf(presetName + "%="))), "");
 		}
 		
 		//Read through the file and find all the main story questions
 		while (content.contains("{")) {
-			storyQuestions .add(content.substring(content.indexOf("{") + 1,
+			
+			//Add the question to the list of questions
+			storyQuestions.add(content.substring(content.indexOf("{") + 1,
 					content.indexOf("}")));
+			
+			//Replace the question with a '%placeholder%'
 			content = content.substring(0, content.indexOf("{")) +
 						"%placeholder%" +
 						content.substring(content.indexOf("}") + 1);
@@ -89,10 +116,19 @@ public class UI {
 			prefix = "Enter ";
 		} else {
 			prefix = "Enter " + prefix + " ";
+			System.out.print("> ");
 		}
 		
-		//Ask all the preset questions
-		for ()
+		//Ask all the preset questions and insert the answers into content
+		for (String currQ: presetQuestions) {
+			String presetName = currQ.split("-")[0];
+			String question = currQ.split("-")[1];
+			
+			System.out.println(prefix + question);
+			System.out.print("> ");
+			
+			content = content.replaceAll("%" + presetName + "%", input.nextLine());
+		}
 		
 		//Ask all the questions in the story and insert results into content
 		for (String currQ: storyQuestions) {

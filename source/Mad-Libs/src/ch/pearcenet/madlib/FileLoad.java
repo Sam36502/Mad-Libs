@@ -20,10 +20,10 @@ public class FileLoad {
 				while (in.hasNextLine()) {
 					String curr = in.nextLine();
 					if (curr.contains("#!") &&
-						attribute.equals(curr.substring(curr.indexOf("#!") + 2, curr.indexOf("=")))) {
+						attribute.equals(curr.substring(curr.indexOf("#!") + 2, curr.indexOf("=")).trim())) {
 						in.close();
 						fis.close();
-						return curr.substring(curr.indexOf("=")+1);
+						return curr.substring(curr.indexOf("=")+1).trim();
 					}
 				}
 				
@@ -76,11 +76,11 @@ public class FileLoad {
 	
 	//Lists all the available madlib files for any given folder
 	public static String[] listAvail(String path) {
-		System.out.println("Searching for Mad-Lib files in '"+path+"'...");
+		File file = new File(path);
+		System.out.println("Searching for Mad-Lib files in '"+file.getAbsolutePath()+"'...");
 		ArrayList<String> result = new ArrayList<>();
 		
 		//Check if the path is a valid directory
-		File file = new File(path);
 		if (file.isDirectory()) {
 			boolean foundFile = false;
 			
@@ -88,7 +88,7 @@ public class FileLoad {
 			for (String current: file.list()) {
 				
 				//If the file is in ad-lib format
-				File toCheck = new File(path + "\\" + current);
+				File toCheck = new File(path + "/" + current);
 				if (FileLoad.isMadlib(toCheck) && toCheck.isFile()) {
 					System.out.println("Found: " + current);
 					result.add(current);
@@ -104,6 +104,7 @@ public class FileLoad {
 			
 			return result.toArray(new String[result.size()]);
 		} else {
+			System.out.println("That's a file. Please enter a directory");
 			return null;
 		}
 	}
@@ -117,9 +118,9 @@ public class FileLoad {
 			
 			//Read through the whole file and check each line if it matches the format
 			while (in.hasNextLine()) {
-				String curr = in.nextLine();
+				String curr = in.nextLine().replaceAll(" ", "");
 				if (curr.contains("#!") &&
-					"format=madlib".equals(curr.substring(curr.indexOf("#!") + 2))) {
+					"format=madlibs".equals(curr.substring(curr.indexOf("#!") + 2))) {
 					in.close();
 					fis.close();
 					return true;
