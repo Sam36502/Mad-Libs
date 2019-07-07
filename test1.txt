@@ -7,7 +7,7 @@
 
 # Presets
 #!friend_name = a friend
-#!dads_name = your frined's dad
+#!dads_name = your friend's dad
 
 I saw %friend_name% at the beach yesterday.
 I hope %friend_name% is available for lunch tomorrow.
