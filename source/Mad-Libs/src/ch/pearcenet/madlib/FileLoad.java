@@ -98,7 +98,6 @@ public class FileLoad {
 			
 			//If no adlib files were found
 			if (!foundFile) {
-				System.out.println("No Mad-Lib files were found.");
 				return null;
 			}
 			

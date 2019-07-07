@@ -30,6 +30,7 @@ public class UI {
 		
 		//If no Mad-Libs were found
 		if (madlibs == null) {
+			System.out.println("No Mad-Libs could be found for that directory.");
 			System.exit(0);
 		}
 		
