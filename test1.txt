@@ -1,10 +1,15 @@
 #!format = madlibs
+
 #!title = The boring story
 #!author = Samuel Pearce
-#!preset = the name of
+#!prefix = the name of
+#!presets = friend_name, dads_name
 
-%friend_name%=your friend
+# Presets
+#!friend_name = a friend
+#!dads_name = your frined's dad
 
 I saw %friend_name% at the beach yesterday.
 I hope %friend_name% is available for lunch tomorrow.
-I will play some {your favourite sport} on wednesday.
+I will do some {your favourite sport} on wednesday.
+%friend_name%'s dad, %dads_name%, is having his 57th birthday soon.
