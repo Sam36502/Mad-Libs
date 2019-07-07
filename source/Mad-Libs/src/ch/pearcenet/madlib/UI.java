@@ -35,7 +35,7 @@ public class UI {
 		}
 		
 		//Prompt the user to pick one of the MadLibs
-		System.out.println("\nEnter the name of an Mad-Lib from the list: ");
+		System.out.println("\nEnter the name of a Mad-Lib from the list: ");
 		boolean isValid = false;
 		String selected;
 		
@@ -114,7 +114,6 @@ public class UI {
 			prefix = "Enter ";
 		} else {
 			prefix = "Enter " + prefix + " ";
-			System.out.print("> ");
 		}
 		
 		//Ask all the preset questions and insert the answers into content
