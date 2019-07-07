@@ -113,29 +113,36 @@ public class FileLoad {
 	
 	//Returns whether or not a file is in the madlib file format
 	public static boolean isMadlib(File file) {
-		try {
-			//Open file stream
-			FileInputStream fis = new FileInputStream(file);
-			Scanner in = new Scanner(fis);
-			
-			//Read through the whole file and check each line if it matches the format
-			while (in.hasNextLine()) {
-				String curr = in.nextLine().replaceAll(" ", "");
-				if (curr.contains("#!") &&
-					"format=madlibs".equals(curr.substring(curr.indexOf("#!") + 2))) {
-					in.close();
-					fis.close();
-					return true;
+		
+		//Check the postfix for '.txt' or '.mdlb'
+		String postfix = file.getName().substring(file.getName().lastIndexOf('.'));
+		if ("txt".equals(postfix) || "mdlb".equals(postfix)) {
+			try {
+				//Open file stream
+				FileInputStream fis = new FileInputStream(file);
+				Scanner in = new Scanner(fis);
+				
+				//Read through the whole file and check each line if it matches the format
+				while (in.hasNextLine()) {
+					String curr = in.nextLine().replaceAll(" ", "");
+					if (curr.contains("#!") &&
+						"format=madlibs".equals(curr.substring(curr.indexOf("#!") + 2))) {
+						in.close();
+						fis.close();
+						return true;
+					}
 				}
+				
+				//No attributes were found
+				in.close();
+				fis.close();
+				return false;
+				
+			//If the file couldn't be opened
+			} catch (IOException e) {
+				return false;
 			}
-			
-			//No attributes were found
-			in.close();
-			fis.close();
-			return false;
-			
-		//If the file couldn't be opened
-		} catch (IOException e) {
+		} else {
 			return false;
 		}
 	}
