@@ -4,8 +4,8 @@ A program for taking a specific file format and prompting the user for inputs. D
 ## Usage:
 To use the Mad-Libs console application, you just need to run the jar file from the console.
 
-Use 'Mad-Libs.bat' for Windows
-Use 'Mad-Libs.sh' for Linux
+* Use 'Mad-Libs.bat' for Windows
+* Use 'Mad-Libs.sh' for Linux
 
 Once the program has started, you can select what folder to search for Mad-Libs files. These files
 follow a specific format (see below), but are also quite simple. If it finds any of these files, it will
@@ -16,7 +16,8 @@ Have Fun!
 
 ## File format
 If you want to make your own Mad-Libs, the simplest way is to just create a new text document
-that starts with `#!format = madlibs`. After that you can write your story. Every time you want to
+that starts with `#!format = madlibs`. This document can either be a '.txt' or a '.mdlb' file,
+based on your preference. After that you can write your story. Every time you want to
 substitute a piece of the story with an answer from the user, you put the question they should answer
 in curly brackets `{}`. Here's an example of a very simple mad-lib:
 ```
