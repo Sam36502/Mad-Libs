@@ -63,20 +63,17 @@ public class UI {
 		ArrayList<String> storyQuestions = new ArrayList<>();
 		
 		//Get the preset questions
-		while (content.contains("%=")) {
+		String presets = FileLoad.getAttribute(currentFile, "presets");
+		if (presets != null) {
+			String[] presetQs = presets.split(",");
 			
-			//Add the question to the list of questions
-			String presetName = content.substring(content.indexOf("%")+1, content.indexOf("%="));
-			String question = content.substring(content.indexOf("%=")+2,
-								content.indexOf(System.lineSeparator(),
-								content.indexOf("%=")));
+			for (String curr: presetQs) {
+				String question = FileLoad.getAttribute(currentFile, curr.trim());
+				if (question != null) {
+					presetQuestions.add(curr.trim() + "-" + question);
+				}
+			}
 			
-			presetQuestions.add(presetName + "-" +question);
-			
-			//Remove the line from the content
-			content = content.replace(content.substring(content.indexOf(presetName + "%=") - 1,
-					content.indexOf(System.lineSeparator(),
-					content.indexOf(presetName + "%="))), "");
 		}
 		
 		//Read through the file and find all the main story questions
