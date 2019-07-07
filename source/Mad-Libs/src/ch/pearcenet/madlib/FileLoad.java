@@ -102,8 +102,11 @@ public class FileLoad {
 			}
 			
 			return result.toArray(new String[result.size()]);
+		} else if (file.isFile()) {
+			System.out.println("That's a file. Please enter a directory.");
+			return null;
 		} else {
-			System.out.println("That's a file. Please enter a directory");
+			System.out.println("That directory doesn't exist.");
 			return null;
 		}
 	}
