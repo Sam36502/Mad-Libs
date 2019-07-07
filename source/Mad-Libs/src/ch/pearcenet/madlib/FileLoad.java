@@ -115,8 +115,8 @@ public class FileLoad {
 	public static boolean isMadlib(File file) {
 		
 		//Check the postfix for '.txt' or '.mdlb'
-		String postfix = file.getName().substring(file.getName().lastIndexOf('.'));
-		if ("txt".equals(postfix) || "mdlb".equals(postfix)) {
+		String postfix = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('.'));
+		if (".txt".equals(postfix) || ".mdlb".equals(postfix)) {
 			try {
 				//Open file stream
 				FileInputStream fis = new FileInputStream(file);
