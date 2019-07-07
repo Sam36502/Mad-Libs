@@ -16,7 +16,8 @@ Have Fun!
 
 ## File format
 If you want to make your own Mad-Libs, the simplest way is to just create a new text document
-that starts with `#!format = madlibs`. After that you can write your story. Every time you want to
+that starts with `#!format = madlibs`. This document can either be a '.txt' or a '.mdlb' file,
+based on your preference. After that you can write your story. Every time you want to
 substitute a piece of the story with an answer from the user, you put the question they should answer
 in curly brackets `{}`. Here's an example of a very simple mad-lib:
 ```
