@@ -44,6 +44,19 @@ Hello there {a friend}, have you seen {your grandma}?
 This will make all the questions:
 "Enter the name of a friend" and "Enter the name of your grandma"
 
+#### Escaping the prefix
+Sometimes however, you won't want to ask a question with the same prefix as all
+your other questions. If this is the case you can "escape" the prefix by adding an
+exclamation marke before the question like so:
+```
+#!format = madlibs
+#!prefix = the name of
+
+Hello there {a friend}, you're lookin {!an adjective} today.
+```
+this will result in the following questions:
+"Enter the name of a friend" and "Enter an adjective".
+
 ### Author
 If you're particularly proud of your creation, you can sign it with your name.
 Using the `#!author` attribute. When the Mad-Lib is used, it will say "by Your Name"
