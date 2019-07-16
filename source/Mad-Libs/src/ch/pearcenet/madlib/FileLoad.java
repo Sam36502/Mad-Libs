@@ -10,33 +10,35 @@ public class FileLoad {
 	
 	//Gets an attribute from a madlib file
 	public static String getAttribute(File madlib, String attribute) {
-		if (FileLoad.isMadlib(madlib)) {
-			try {
-				//Open file stream
-				FileInputStream fis = new FileInputStream(madlib);
-				Scanner in = new Scanner(fis);
-				
-				//Read through the whole file and check each line if it matches the format
-				while (in.hasNextLine()) {
-					String curr = in.nextLine();
-					if (curr.contains("#!") &&
-						attribute.equals(curr.substring(curr.indexOf("#!") + 2, curr.indexOf("=")).trim())) {
-						in.close();
-						fis.close();
-						return curr.substring(curr.indexOf("=")+1).trim();
-					}
+		
+		//Exit if it isn't in the correct format
+		if (!FileLoad.isMadlib(madlib)) {
+			return null;
+		}
+		
+		try {
+			//Open file stream
+			FileInputStream fis = new FileInputStream(madlib);
+			Scanner in = new Scanner(fis);
+			
+			//Read through the whole file and check each line if it matches the format
+			while (in.hasNextLine()) {
+				String curr = in.nextLine();
+				if (curr.contains("#!") &&
+					attribute.equals(curr.substring(curr.indexOf("#!") + 2, curr.indexOf("=")).trim())) {
+					in.close();
+					fis.close();
+					return curr.substring(curr.indexOf("=")+1).trim();
 				}
-				
-				//No attributes were found
-				in.close();
-				fis.close();
-				return null;
-				
-			//If the file couldn't be opened
-			} catch (IOException e) {
-				return null;
 			}
-		} else {
+			
+			//No attributes were found
+			in.close();
+			fis.close();
+			return null;
+			
+		//If the file couldn't be opened
+		} catch (IOException e) {
 			return null;
 		}
 	}
@@ -116,33 +118,33 @@ public class FileLoad {
 		
 		//Check the postfix for '.txt' or '.mdlb'
 		String postfix = file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf('.'));
-		if (".txt".equals(postfix) || ".mdlb".equals(postfix)) {
-			try {
-				//Open file stream
-				FileInputStream fis = new FileInputStream(file);
-				Scanner in = new Scanner(fis);
-				
-				//Read through the whole file and check each line if it matches the format
-				while (in.hasNextLine()) {
-					String curr = in.nextLine().replaceAll(" ", "");
-					if (curr.contains("#!") &&
-						"format=madlibs".equals(curr.substring(curr.indexOf("#!") + 2))) {
-						in.close();
-						fis.close();
-						return true;
-					}
+		if (!".txt".equals(postfix) && !".mdlb".equals(postfix)) {
+			return false;
+		}
+		
+		try {
+			//Open file stream
+			FileInputStream fis = new FileInputStream(file);
+			Scanner in = new Scanner(fis);
+			
+			//Read through the whole file and check each line if it matches the format
+			while (in.hasNextLine()) {
+				String curr = in.nextLine().replaceAll(" ", "");
+				if (curr.contains("#!") &&
+					"format=madlibs".equals(curr.substring(curr.indexOf("#!") + 2))) {
+					in.close();
+					fis.close();
+					return true;
 				}
-				
-				//No attributes were found
-				in.close();
-				fis.close();
-				return false;
-				
-			//If the file couldn't be opened
-			} catch (IOException e) {
-				return false;
 			}
-		} else {
+			
+			//No attributes were found
+			in.close();
+			fis.close();
+			return false;
+			
+		//If the file couldn't be opened
+		} catch (IOException e) {
 			return false;
 		}
 	}
