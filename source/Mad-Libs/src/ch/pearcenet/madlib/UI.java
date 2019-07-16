@@ -16,6 +16,10 @@ public class UI {
 	//Open an input scanner
 	private static Scanner input = new Scanner(System.in);
 	
+	//File Attributes
+	private static String prefix;
+	private static String filename;
+	
 	public static void main(String[] args) {
 		
 		//List all the available MadLibs
@@ -37,15 +41,19 @@ public class UI {
 		//Prompt the user to pick one of the MadLibs
 		System.out.println("\nEnter the name of a Mad-Lib from the list: ");
 		boolean isValid = false;
-		String selected;
 		
 		//Validate the user input
 		do {
 			System.out.print("> ");
-			selected = input.nextLine();
+			filename = input.nextLine();
 			
 			for (String curr: madlibs) {
-				if (curr.equals(selected)) {
+				if (curr.equals(filename)) {
+					isValid = true;
+					break;
+					
+				} else if (filename.equals(curr.substring(0, curr.indexOf('.')))) {
+					filename = curr;
 					isValid = true;
 					break;
 				}
@@ -58,10 +66,87 @@ public class UI {
 		} while (!isValid);
 		
 		//Get file contents
-		currentFile = new File(path + "/" + selected);
-		String content = FileLoad.getContent(path + "/" + selected);
-		ArrayList<String> presetQuestions = new ArrayList<>();
+		currentFile = new File(path + "/" + filename);
+		String content = FileLoad.getContent(path + "/" + filename);
+		
+		//Check if the Mad-Lib has a prefix, otherwise use full questions
+		prefix = FileLoad.getAttribute(currentFile, "prefix");
+		if (prefix == null) {
+			prefix = "Enter ";
+		} else {
+			prefix = "Enter " + prefix + " ";
+		}
+		
+		content = askPresetQs(content);
+		content = askStoryQs(content);
+
+		//Print out the result
+		printStoryHeader();
+		System.out.println("\nFinal Story:\n------------\n" + content);
+	}
+	
+	
+	
+	// Gets all the main attributes from the file, stores them and prints them
+	private static void printStoryHeader() {
+		
+		//Check if the Mad-Lib has a title, otherwise use the filename
+		String title = FileLoad.getAttribute(currentFile, "title");
+		if (title == null) {
+			title = filename;
+		}
+		
+		//Display title
+		System.out.println("\n"+title+":");
+		for (int i=0; i<=title.length(); i++) System.out.print("-");
+		System.out.println(" ");
+		
+		//Check if the Mad-Lib has an author, otherwise leave it out
+		String author = FileLoad.getAttribute(currentFile, "author");
+		if (author != null) {
+			System.out.println("by "+author);
+		}
+		System.out.println("\n");
+		
+	}
+	
+	// Ask all the questions in the story and insert results into content
+	private static String askStoryQs(String content) {
 		ArrayList<String> storyQuestions = new ArrayList<>();
+		
+		//Read through the file and find all the main story questions
+		while (content.contains("{")) {
+			
+			//Add the question to the list of questions
+			storyQuestions.add(content.substring(content.indexOf("{") + 1,
+					content.indexOf("}")));
+			
+			//Replace the question with a '%placeholder%'
+			content = content.substring(0, content.indexOf("{")) +
+						"%placeholder%" +
+						content.substring(content.indexOf("}") + 1);
+		}
+		
+		//Ask all the questions and replace them in the text
+		for (String currQ: storyQuestions) {
+			
+			//Check if the question is escaped
+			if (currQ.charAt(0) == '!') {
+				System.out.println("Enter " + currQ);
+			} else {
+				System.out.println(prefix + currQ);
+			}
+			System.out.print("> ");
+			
+			content = content.replaceFirst("%placeholder%", input.nextLine());
+		}
+		
+		return content;
+	}
+	
+	// Ask all the preset questions and insert results into the story
+	private static String askPresetQs(String content) {
+		ArrayList<String> presetQuestions = new ArrayList<>();
 		
 		//Get the preset questions
 		String presets = FileLoad.getAttribute(currentFile, "presets");
@@ -77,45 +162,6 @@ public class UI {
 			
 		}
 		
-		//Read through the file and find all the main story questions
-		while (content.contains("{")) {
-			
-			//Add the question to the list of questions
-			storyQuestions.add(content.substring(content.indexOf("{") + 1,
-					content.indexOf("}")));
-			
-			//Replace the question with a '%placeholder%'
-			content = content.substring(0, content.indexOf("{")) +
-						"%placeholder%" +
-						content.substring(content.indexOf("}") + 1);
-		}
-		
-		//Check if the Mad-Lib has a title, otherwise use the filename
-		String title = FileLoad.getAttribute(currentFile, "title");
-		if (title == null) {
-			title = selected;
-		}
-		
-		//Display title
-		System.out.println("\n"+title+":");
-		for (int i=0; i<=title.length(); i++) System.out.print("-");
-		System.out.println(" ");
-		
-		//Check if the Mad-Lib has an author, otherwise leave it out
-		String author = FileLoad.getAttribute(currentFile, "author");
-		if (author != null) {
-			System.out.println("by "+author);
-		}
-		System.out.println("\n");
-		
-		//Check if the Mad-Lib has a prefix, otherwise use full questions
-		String prefix = FileLoad.getAttribute(currentFile, "prefix");
-		if (prefix == null) {
-			prefix = "Enter ";
-		} else {
-			prefix = "Enter " + prefix + " ";
-		}
-		
 		//Ask all the preset questions and insert the answers into content
 		for (String currQ: presetQuestions) {
 			String presetName = currQ.split("-")[0];
@@ -127,16 +173,7 @@ public class UI {
 			content = content.replaceAll("%" + presetName + "%", input.nextLine());
 		}
 		
-		//Ask all the questions in the story and insert results into content
-		for (String currQ: storyQuestions) {
-			System.out.println(prefix + currQ);
-			System.out.print("> ");
-			
-			content = content.replaceFirst("%placeholder%", input.nextLine());
-		}
-		
-		//Print out the result
-		System.out.println("\nFinal Story:\n------------\n\n" + content);
+		return content;
 	}
 
 }
