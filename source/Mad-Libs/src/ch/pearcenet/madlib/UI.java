@@ -167,7 +167,12 @@ public class UI {
 			String presetName = currQ.split("-")[0];
 			String question = currQ.split("-")[1];
 			
-			System.out.println(prefix + question);
+			//Check if the question is escaped
+			if (question.charAt(0) == '!') {
+				System.out.println("Enter " + question.substring(1));
+			} else {
+				System.out.println(prefix + question);
+			}
 			System.out.print("> ");
 			
 			content = content.replaceAll("%" + presetName + "%", input.nextLine());
