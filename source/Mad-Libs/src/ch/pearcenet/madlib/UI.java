@@ -132,7 +132,7 @@ public class UI {
 			
 			//Check if the question is escaped
 			if (currQ.charAt(0) == '!') {
-				System.out.println("Enter " + currQ);
+				System.out.println("Enter " + currQ.substring(1));
 			} else {
 				System.out.println(prefix + currQ);
 			}
