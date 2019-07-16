@@ -129,7 +129,13 @@ public class UI {
 		
 		//Ask all the questions and replace them in the text
 		for (String currQ: storyQuestions) {
-			System.out.println(prefix + currQ);
+			
+			//Check if the question is escaped
+			if (currQ.charAt(0) == '!') {
+				System.out.println("Enter " + currQ);
+			} else {
+				System.out.println(prefix + currQ);
+			}
 			System.out.print("> ");
 			
 			content = content.replaceFirst("%placeholder%", input.nextLine());
