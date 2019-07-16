@@ -57,6 +57,8 @@ Hello there {a friend}, you're lookin {!an adjective} today.
 this will result in the following questions:
 "Enter the name of a friend" and "Enter an adjective".
 
+This can also be done with the preset questions: `#!presetname = !escaped question`
+
 ### Author
 If you're particularly proud of your creation, you can sign it with your name.
 Using the `#!author` attribute. When the Mad-Lib is used, it will say "by Your Name"
