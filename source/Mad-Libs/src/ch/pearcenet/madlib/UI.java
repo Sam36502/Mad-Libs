@@ -51,6 +51,11 @@ public class UI {
 				if (curr.equals(filename)) {
 					isValid = true;
 					break;
+					
+				} else if (filename.equals(curr.substring(0, curr.indexOf('.')))) {
+					filename = curr;
+					isValid = true;
+					break;
 				}
 			}
 			
@@ -64,18 +69,27 @@ public class UI {
 		currentFile = new File(path + "/" + filename);
 		String content = FileLoad.getContent(path + "/" + filename);
 		
+		//Check if the Mad-Lib has a prefix, otherwise use full questions
+		prefix = FileLoad.getAttribute(currentFile, "prefix");
+		if (prefix == null) {
+			prefix = "Enter ";
+		} else {
+			prefix = "Enter " + prefix + " ";
+		}
+		
 		content = askPresetQs(content);
 		content = askStoryQs(content);
 
 		//Print out the result
 		printStoryHeader();
-		System.out.println("\nFinal Story:\n------------\n\n" + content);
+		System.out.println("\nFinal Story:\n------------\n" + content);
 	}
 	
 	
 	
 	// Gets all the main attributes from the file, stores them and prints them
 	private static void printStoryHeader() {
+		
 		//Check if the Mad-Lib has a title, otherwise use the filename
 		String title = FileLoad.getAttribute(currentFile, "title");
 		if (title == null) {
@@ -94,13 +108,6 @@ public class UI {
 		}
 		System.out.println("\n");
 		
-		//Check if the Mad-Lib has a prefix, otherwise use full questions
-		String prefix = FileLoad.getAttribute(currentFile, "prefix");
-		if (prefix == null) {
-			prefix = "Enter ";
-		} else {
-			prefix = "Enter " + prefix + " ";
-		}
 	}
 	
 	// Ask all the questions in the story and insert results into content
