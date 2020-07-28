@@ -1,11 +1,11 @@
 # Mad-Libs
 A program for taking a specific file format and prompting the user for inputs. Displays the full Story when it's done.
 
-## Usage:
+## Usage
 To use the Mad-Libs console application, you just need to run the jar file from the console.
 
-* Use 'Mad-Libs.bat' for Windows
-* Use 'Mad-Libs.sh' for Linux
+  * Use 'Mad-Libs.bat' for Windows
+  * Use 'Mad-Libs.sh' for Linux
 
 Once the program has started, you can select what folder to search for Mad-Libs files. These files
 follow a specific format (see below), but are also quite simple. If it finds any of these files, it will
