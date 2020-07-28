@@ -13,5 +13,5 @@ I saw %friend_name% at the beach yesterday.
 I hope %friend_name% is available for lunch tomorrow.
 I will do some {your favourite sport} on wednesday.
 
-Me and %friend_name% were playing %game% all day
+%friend_name% and I were playing %game% all day
 yesterday. I had a {!a positive adjective} time.
