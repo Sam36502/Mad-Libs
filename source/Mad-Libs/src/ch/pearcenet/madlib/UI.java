@@ -35,7 +35,7 @@ public class UI {
 		// If no Mad-Libs were found
 		if (madlibs == null) {
 			System.out.println("No Mad-Libs could be found for that directory.");
-			System.exit(0);
+			return 0;
 		}
 		
 		// Prompt the user to pick one of the MadLibs
@@ -111,20 +111,21 @@ public class UI {
 	}
 	
 	//  Ask all the questions in the story and insert results into content
-	private static String askStoryQs(String content) {
+	private static String askStoryQs(final String content) {
+		String filledContent = content;
 		ArrayList<String> storyQuestions = new ArrayList<>();
 		
 		// Read through the file and find all the main story questions
-		while (content.contains("{")) {
+		while (filledContent.contains("{")) {
 			
 			// Add the question to the list of questions
-			storyQuestions.add(content.substring(content.indexOf("{") + 1,
-					content.indexOf("}")));
+			storyQuestions.add(filledContent.substring(filledContent.indexOf("{") + 1,
+					filledContent.indexOf("}")));
 			
 			// Replace the question with a '%placeholder%'
-			content = content.substring(0, content.indexOf("{")) +
+			filledContent = filledContent.substring(0, filledContent.indexOf("{")) +
 						"%placeholder%" +
-						content.substring(content.indexOf("}") + 1);
+						filledContent.substring(filledContent.indexOf("}") + 1);
 		}
 		
 		// Ask all the questions and replace them in the text
@@ -138,14 +139,15 @@ public class UI {
 			}
 			System.out.print("> ");
 			
-			content = content.replaceFirst("%placeholder%", input.nextLine());
+			filledContent = filledContent.replaceFirst("%placeholder%", input.nextLine());
 		}
 		
-		return content;
+		return filledContent;
 	}
 	
 	//  Ask all the preset questions and insert results into the story
-	private static String askPresetQs(String content) {
+	private static String askPresetQs(final String content) {
+		String filledContent = content;
 		ArrayList<String> presetQuestions = new ArrayList<>();
 		
 		// Get the preset questions
@@ -175,10 +177,10 @@ public class UI {
 			}
 			System.out.print("> ");
 			
-			content = content.replaceAll("%" + presetName + "%", input.nextLine());
+			filledContent = filledContent.replaceAll("%" + presetName + "%", input.nextLine());
 		}
 		
-		return content;
+		return filledContent;
 	}
 
 }
